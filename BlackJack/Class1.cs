@@ -10,14 +10,17 @@ public class Card
     public int RealValue { get; set; }
 }
 
+public class Hand
+{
+    public List<Card> Cards { get; set; }
+}
 
 
 public class BalckJackEngine
 {
     int roundCounter = 0;
     public List<Card> Deck { get; set; } = new();
-    
-    
+
 
     public void  CreateDeckAndShuffleIt()
     {
@@ -43,23 +46,29 @@ public class BalckJackEngine
             var randomValue = Guid.NewGuid();
             return randomValue.ToString();
         }).ToList();
-
     }
+
+    public Card  PickCard()
+    {
+        Card card;
+        card = Deck.First();
+        Deck.Remove(card);
+        return card;
+    }
+
     //----------------------------------------
     public void StartRound(int players)
     {
-        if (roundCounter == 2 || roundCounter == 0) 
+        int counterPlayers = 0;
+        do
         {
-            CreateDeckAndShuffleIt();
-            roundCounter = 0;
-        }
+            if (roundCounter == 2 || roundCounter == 0)
+            {
+                CreateDeckAndShuffleIt();
+                roundCounter = 0;
+            }
+            
 
-        
-
+        } while (counterPlayers < 4);
     }
-
-
-    
-
-
 }
