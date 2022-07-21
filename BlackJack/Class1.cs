@@ -118,6 +118,7 @@ public class BalckJackEngine
         {
             player.hand.Cards = null;
             player.bet = 0;
+            player.busted = false;
         }
     }
 
