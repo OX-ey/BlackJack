@@ -28,7 +28,9 @@ public class BalckJackEngine
 {
     int roundCounter = 0;
 
-    List<Player> playerList = new List<Player>();               //lista player
+    List<Player> playerList = playerListFill();
+
+
     public List<Card> Deck { get; set; } = new();
 
 
@@ -83,24 +85,25 @@ public class BalckJackEngine
         }
     }
 
-    //----------------------------------------
-    public void StartRound(int players)
+    internal static List<Player> playerListFill()
     {
-        for(int i = 0; i < 4; i++)
+        List<Player> pList = new List<Player>();
+        for (int i = 0; i < 4; i++)
         {
-            playerList.Add(new Player { balance = 1000, name = "bot" });
+            pList.Add(new Player { balance = 1000, name = "bot" });
         }
-        int counterPlayers = 0;
-        do
-        {
+        return pList;
+    }
+
+    //----------------------------------------
+    public void StartRound()
+    {
+
             if (roundCounter == 2 || roundCounter == 0)
             {
                 CreateDeckAndShuffleIt();
                 roundCounter = 0;
             }
-            
-
-        } while (counterPlayers < 4);
     }
 
 }
