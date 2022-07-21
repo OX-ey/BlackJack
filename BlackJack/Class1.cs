@@ -15,10 +15,20 @@ public class Hand
     public List<Card> Cards { get; set; }
 }
 
+public class Player
+{
+    public Hand hand { get; set; } 
+    public string name { get; set; }    
+    public float balance { get; set; }  
+
+
+}
 
 public class BalckJackEngine
 {
     int roundCounter = 0;
+
+    List<Player> playerList = new List<Player>();               //lista player
     public List<Card> Deck { get; set; } = new();
 
 
@@ -56,9 +66,30 @@ public class BalckJackEngine
         return card;
     }
 
+    public void playerBuild(string name, float balance) 
+    {
+        Hand h = new Hand();
+        h = null;
+        Player player = new Player();
+        player.hand = h;
+        player.name = name; 
+        player.balance = balance;
+        for (int i = 0; i < 4; i++)
+        {
+            if (playerList[i].name == "bot")
+            {
+                playerList[i] = player;
+            }
+        }
+    }
+
     //----------------------------------------
     public void StartRound(int players)
     {
+        for(int i = 0; i < 4; i++)
+        {
+            playerList.Add(new Player { balance = 1000, name = "bot" });
+        }
         int counterPlayers = 0;
         do
         {
@@ -71,4 +102,5 @@ public class BalckJackEngine
 
         } while (counterPlayers < 4);
     }
+
 }
