@@ -20,7 +20,20 @@ public class Player
 {
     public Hand hand { get; set; } 
     public string name { get; set; }    
-    public float balance { get; set; }  
+    public float balance { get; set; }
+
+    public float bet = 0;
+    public bool busted = false; 
+    public bool makeBet(float amount)
+    {
+        if (amount > 0 && balance > 0 && balance > amount)
+        { 
+            balance -= amount;
+            this.bet = amount;
+            return true;
+        }
+        else { return false; }  
+    }
 
 
 }
@@ -83,6 +96,7 @@ public class BalckJackEngine
             if (PlayerList[i].name == "bot")
             {
                 PlayerList[i] = player;
+                break;
             }
         }
     }
@@ -96,6 +110,45 @@ public class BalckJackEngine
         }
         return pList;
     }
+    public void endRound()
+    {
+        roundCounter++;
+        dealer = null;
+        foreach (Player player in PlayerList)
+        {
+            player.hand.Cards = null;
+            player.bet = 0;
+        }
+    }
+
+    public void playBot()
+    {
+        List<Player>.Enumerator enumerator = PlayerList.GetEnumerator();
+        do
+        {
+            Player bot = enumerator.Current;
+            if (bot.name == "bot")
+            {
+                bool stand = false;
+                do
+                {
+                    if(bot.hand.Points <= 16)
+                    {
+                        bot.hand.Cards.Add(PickCard());
+                    }
+                    else if (bot.hand.Points >= 17 && bot.hand.Points < 22)
+                    {
+                        stand = true;
+                    }
+                    else
+                    {
+                       bot.busted = true;
+                    }
+                }while(stand!=true && bot.busted!=true);
+            }
+        }while(enumerator.MoveNext());  
+    }
+
 
 
 
@@ -108,11 +161,13 @@ public class BalckJackEngine
             CreateDeckAndShuffleIt();
             roundCounter = 0;
         }
+
         dealer.Add(PickCard());
         for (int i = 0; i < 4; i++)
         {
             PlayerList[i].hand.Cards.Add(PickCard());
             PlayerList[i].hand.Cards.Add(PickCard());
         }
+
     } 
 }
