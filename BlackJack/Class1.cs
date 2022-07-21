@@ -13,6 +13,7 @@ public class Card
 public class Hand
 {
     public List<Card> Cards { get; set; }
+    public int Points => Cards.Sum(x => x.Value);
 }
 
 public class Player
@@ -28,13 +29,14 @@ public class BalckJackEngine
 {
     int roundCounter = 0;
 
-    List<Player> playerList = playerListFill();
+    public List<Player> PlayerList { get; } = playerListFill();  //lista di player
+    List<Card> dealer = new List<Card>();
 
 
-    public List<Card> Deck { get; set; } = new();
+    public List<Card> Deck { get; set; } = new();  //deck
 
 
-    public void  CreateDeckAndShuffleIt()
+    public void CreateDeckAndShuffleIt()
     {
         int decks = 0;
         do
@@ -60,7 +62,7 @@ public class BalckJackEngine
         }).ToList();
     }
 
-    public Card  PickCard()
+    public Card PickCard()
     {
         Card card;
         card = Deck.First();
@@ -68,24 +70,24 @@ public class BalckJackEngine
         return card;
     }
 
-    public void playerBuild(string name, float balance) 
+    public void playerBuild(string name, float balance)
     {
         Hand h = new Hand();
         h = null;
         Player player = new Player();
         player.hand = h;
-        player.name = name; 
+        player.name = name;
         player.balance = balance;
         for (int i = 0; i < 4; i++)
         {
-            if (playerList[i].name == "bot")
+            if (PlayerList[i].name == "bot")
             {
-                playerList[i] = player;
+                PlayerList[i] = player;
             }
         }
     }
 
-    internal static List<Player> playerListFill()
+    internal static List<Player> playerListFill()                   //chiamato una volta, prima di startare il primo round
     {
         List<Player> pList = new List<Player>();
         for (int i = 0; i < 4; i++)
@@ -95,15 +97,22 @@ public class BalckJackEngine
         return pList;
     }
 
+
+
     //----------------------------------------
     public void StartRound()
     {
 
-            if (roundCounter == 2 || roundCounter == 0)
-            {
-                CreateDeckAndShuffleIt();
-                roundCounter = 0;
-            }
-    }
-
+        if (roundCounter == 2 || roundCounter == 0)
+        {
+            CreateDeckAndShuffleIt();
+            roundCounter = 0;
+        }
+        dealer.Add(PickCard());
+        for (int i = 0; i < 4; i++)
+        {
+            PlayerList[i].hand.Cards.Add(PickCard());
+            PlayerList[i].hand.Cards.Add(PickCard());
+        }
+    } 
 }
