@@ -24,7 +24,7 @@ public class Player
 
     public float bet = 0;
 
-    public bool busted => hand.Points>21;
+    public bool busted => hand.Points > 21;
     public bool makeBet(float amount)
     {
         if (amount > 0 && balance > 0 && balance > amount)
@@ -150,10 +150,10 @@ public class BlackJackEngine
                         {
                             stand = true;
                         }
-                        
+
                     } while (stand != true && bot.busted != true);
                 }
-                
+
             }
         }
     }
@@ -161,7 +161,7 @@ public class BlackJackEngine
 
 
 
-    //-----------------------------------------
+    //----------------------------------------
     public void Initilize()
     {
 
@@ -185,7 +185,7 @@ public class BlackJackEngine
 
     public void playUser(Player p, Choice s)
     {
-        bool stand= false ;
+        bool stand = false;
         do
         {
             stand = s != Choice.hit;
@@ -200,7 +200,7 @@ public class BlackJackEngine
                     p.hand.Cards.Add(PickCard());
                     break;
             }
-        }while (!stand && !p.busted);
+        } while (!stand && !p.busted);
     }
 }
 public enum Seeds
