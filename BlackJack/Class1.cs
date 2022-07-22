@@ -23,6 +23,7 @@ public class Player
     public float balance { get; set; }
 
     public float bet = 0;
+
     public bool busted = false; 
     public bool makeBet(float amount)
     {
@@ -38,12 +39,19 @@ public class Player
 
 }
 
+public class Dealer
+{
+    public Hand hand { get; set; }
+    public bool busted = false;
+}
+
+
 public class BalckJackEngine
 {
     int roundCounter = 0;
 
     public List<Player> PlayerList { get; } = playerListFill();  //lista di player
-    List<Card> dealer = new List<Card>();
+    Dealer dealer = new Dealer();
 
 
     public List<Card> Deck { get; set; } = new();  //deck
@@ -86,7 +94,6 @@ public class BalckJackEngine
     public void playerBuild(string name, float balance)
     {
         Hand h = new Hand();
-        h = null;
         Player player = new Player();
         player.hand = h;
         player.name = name;
@@ -161,7 +168,7 @@ public class BalckJackEngine
             roundCounter = 0;
         }
 
-        dealer.Add(PickCard());
+        dealer.hand.Cards.Add(PickCard());
         for (int i = 0; i < 4; i++)
         {
             PlayerList[i].hand.Cards.Add(PickCard());
