@@ -4,36 +4,36 @@ using System.Linq;
 
 
 public class Card
-    {
+{
     public Seeds Seed { get; set; }
-    public  int Value { get; set; } 
+    public int Value { get; set; }
     public int RealValue { get; set; }
 }
 
 public class Hand
 {
-    public List<Card> Cards = new List<Card>(); 
+    public List<Card> Cards = new List<Card>();
     public int Points => Cards.Sum(x => x.Value);
 }
 
 public class Player
 {
     public Hand hand = new Hand();
-    public string name { get; set; }    
+    public string name { get; set; }
     public float balance { get; set; }
 
     public float bet = 0;
 
-    public bool busted = false; 
+    public bool busted => hand.Points>21;
     public bool makeBet(float amount)
     {
         if (amount > 0 && balance > 0 && balance > amount)
-        { 
+        {
             balance -= amount;
             this.bet = amount;
             return true;
         }
-        else { return false; }  
+        else { return false; }
     }
 
 
@@ -46,7 +46,7 @@ public class Dealer
 }
 
 
-public class BalckJackEngine
+public class BlackJackEngine
 {
     int roundCounter = 0;
 
@@ -126,7 +126,6 @@ public class BalckJackEngine
         {
             player.hand.Cards.Clear();
             player.bet = 0;
-            player.busted = false;
         }
     }
 
@@ -142,6 +141,7 @@ public class BalckJackEngine
                     bool stand = false;
                     do
                     {
+
                         if (bot.hand.Points <= 16)
                         {
                             bot.hand.Cards.Add(PickCard());
@@ -150,16 +150,10 @@ public class BalckJackEngine
                         {
                             stand = true;
                         }
-                        else
-                        {
-                            bot.busted = true;
-                        }
+                        
                     } while (stand != true && bot.busted != true);
                 }
-                else
-                {
-                    bot.busted = true;
-                }
+                
             }
         }
     }
@@ -188,11 +182,38 @@ public class BalckJackEngine
         }
 
     }
-} 
-    public enum Seeds
+
+    public void playUser(Player p, Choice s)
     {
-        hearts,
-        diamonds,
-        clubs,
-        spades 
+        bool stand= false ;
+        do
+        {
+            stand = s != Choice.hit;
+            switch (s)
+            {
+                case Choice.hit:
+                    p.hand.Cards.Add(PickCard());
+                    break;
+                case Choice.stand:
+                    break;
+                case Choice.multiply:
+                    p.hand.Cards.Add(PickCard());
+                    break;
+            }
+        }while (!stand && !p.busted);
     }
+}
+public enum Seeds
+{
+    hearts,
+    diamonds,
+    clubs,
+    spades
+}
+
+public enum Choice
+{
+    hit,
+    stand,
+    multiply
+}
