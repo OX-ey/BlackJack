@@ -65,7 +65,7 @@ public class BlackJackEngine
         List<Player> pList = new List<Player>();
         for (int i = 0; i < 4; i++)
         {
-            pList.Add(new Player { balance = 1000, name = "bot" });
+            pList.Add(new Player { balance = 1000, name = "$bot {i}" });
         }
         return pList;
     }
@@ -143,6 +143,28 @@ public class BlackJackEngine
 
         } while (stand != true && dealer.busted != true);
     }
+
+    public Score WinCheck(Player p)
+    {
+        if (p.busted)
+        {
+            return Score.lose;
+        }
+        else if (p.hand.Points > dealer.hand.Points)
+        {
+            if (p.hand.Cards.Count > 2)
+            {
+                return Score.win;
+            }
+            else { return Score.bj; }
+        }
+        else 
+        {
+            return Score.lose;
+        }
+
+        
+    }
     //-------------------------------------------------------------
     public void Initilize()
     {
@@ -167,4 +189,12 @@ public enum Choice
     hit,
     stand,
     multiply
+}
+
+public enum Score
+{
+    win,
+    lose,
+    bj,
+    push
 }
