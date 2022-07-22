@@ -124,16 +124,14 @@ public class BalckJackEngine
 
     public void playBot()
     {
-        List<Player>.Enumerator enumerator = PlayerList.GetEnumerator();
-        do
+        foreach(Player bot in PlayerList)
         {
-            Player bot = enumerator.Current;
             if (bot.name == "bot")
             {
                 bool stand = false;
                 do
                 {
-                    if(bot.hand.Points <= 16)
+                    if (bot.hand.Points <= 16)
                     {
                         bot.hand.Cards.Add(PickCard());
                     }
@@ -143,11 +141,11 @@ public class BalckJackEngine
                     }
                     else
                     {
-                       bot.busted = true;
+                        bot.busted = true;
                     }
-                }while(stand!=true && bot.busted!=true);
+                } while(stand!=true && bot.busted!=true);
             }
-        }while(enumerator.MoveNext());  
+        }
     }
 
 
