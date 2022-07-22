@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Card
     {
-    public int Seed { get; set; }
+    public Seeds Seed { get; set; }
     public  int Value { get; set; } 
     public int RealValue { get; set; }
 }
@@ -58,7 +58,7 @@ public class BalckJackEngine
     public List<Card> Deck { get; set; } = new();  //deck
 
 
-    internal  void CreateDeckAndShuffleIt()
+    internal void CreateDeckAndShuffleIt()
     {
         int decks = 0;
         do
@@ -69,7 +69,7 @@ public class BalckJackEngine
                 {
                     Deck.Add(new Card
                     {
-                        Seed = i,
+                        Seed = (Seeds)i,
                         Value = j == 1 ? 11 : (j > 10 ? 10 : j),
                         RealValue = j,
                     });
@@ -132,26 +132,34 @@ public class BalckJackEngine
 
     public void playBot()
     {
-        foreach(Player bot in PlayerList)
+        foreach (Player bot in PlayerList)
         {
             if (bot.name == "bot")
             {
-                bool stand = false;
-                do
+                if (bot.makeBet(50))
                 {
-                    if (bot.hand.Points <= 16)
+
+                    bool stand = false;
+                    do
                     {
-                        bot.hand.Cards.Add(PickCard());
-                    }
-                    else if (bot.hand.Points >= 17 && bot.hand.Points < 22)
-                    {
-                        stand = true;
-                    }
-                    else
-                    {
-                        bot.busted = true;
-                    }
-                } while(stand!=true && bot.busted!=true);
+                        if (bot.hand.Points <= 16)
+                        {
+                            bot.hand.Cards.Add(PickCard());
+                        }
+                        else if (bot.hand.Points >= 17 && bot.hand.Points < 22)
+                        {
+                            stand = true;
+                        }
+                        else
+                        {
+                            bot.busted = true;
+                        }
+                    } while (stand != true && bot.busted != true);
+                }
+                else
+                {
+                    bot.busted = true;
+                }
             }
         }
     }
@@ -171,13 +179,20 @@ public class BalckJackEngine
 
 
         dealer.hand.Cards.Add(PickCard());
-        
-        
+
+
         for (int i = 0; i < 4; i++)
         {
             PlayerList[i].hand.Cards.Add(PickCard());
             PlayerList[i].hand.Cards.Add(PickCard());
         }
 
-    } 
-}
+    }
+} 
+    public enum Seeds
+    {
+        hearts,
+        diamonds,
+        clubs,
+        spades 
+    }
