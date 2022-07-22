@@ -12,13 +12,13 @@ public class Card
 
 public class Hand
 {
-    public List<Card> Cards { get; set; }
+    public List<Card> Cards = new List<Card>(); 
     public int Points => Cards.Sum(x => x.Value);
 }
 
 public class Player
 {
-    public Hand hand { get; set; } 
+    public Hand hand = new Hand();
     public string name { get; set; }    
     public float balance { get; set; }
 
@@ -41,7 +41,7 @@ public class Player
 
 public class Dealer
 {
-    public Hand hand { get; set; }
+    public Hand hand = new Hand();
     public bool busted = false;
 }
 
@@ -54,10 +54,11 @@ public class BalckJackEngine
     Dealer dealer = new Dealer();
 
 
+
     public List<Card> Deck { get; set; } = new();  //deck
 
 
-    public void CreateDeckAndShuffleIt()
+    internal  void CreateDeckAndShuffleIt()
     {
         int decks = 0;
         do
@@ -120,10 +121,10 @@ public class BalckJackEngine
     public void endRound()
     {
         roundCounter++;
-        dealer = null;
+        dealer.hand.Cards.Clear();
         foreach (Player player in PlayerList)
         {
-            player.hand.Cards = null;
+            player.hand.Cards.Clear();
             player.bet = 0;
             player.busted = false;
         }
@@ -159,7 +160,7 @@ public class BalckJackEngine
 
 
     //----------------------------------------
-    public void StartRound()
+    public void Initilize()
     {
 
         if (roundCounter == 2 || roundCounter == 0)
@@ -168,7 +169,10 @@ public class BalckJackEngine
             roundCounter = 0;
         }
 
+
         dealer.hand.Cards.Add(PickCard());
+        
+        
         for (int i = 0; i < 4; i++)
         {
             PlayerList[i].hand.Cards.Add(PickCard());
