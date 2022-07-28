@@ -71,7 +71,7 @@ public class BlackJackEngine
         }
         return pList;
     }
-    public void playBot()                               //metod0 che fa giocare i bot in automatico
+    public void AutoPlayAllBot()                               //metod0 che fa giocare i bot in automatico
     {
         foreach (Player bot in PlayerList)
         {
@@ -97,7 +97,7 @@ public class BlackJackEngine
         }
     }
 
-    public void playDealer()                                            //metod0 che fa giocare il dealer in automatico
+    public void AutoPlayDealer()                                            //metod0 che fa giocare il dealer in automatico
     {
         bool stand = false;
         do
