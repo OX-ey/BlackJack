@@ -66,8 +66,14 @@ while (true)
                         Console.WriteLine("\n" + bj.PlayerList[i].name + " sta");
                         break;
                     case 3:
-                        bj.Double(bj.PlayerList[i]);
-                        Console.WriteLine("\n" + bj.PlayerList[i].name + " raddoppia");
+                       if(bj.Double(bj.PlayerList[i])) 
+                        {
+                            Console.WriteLine("\n" + bj.PlayerList[i].name + " raddoppia");
+                        }
+                    else
+                        {
+                            Console.WriteLine("\n" + bj.PlayerList[i].name + " non può raddoppiare");
+                        }
                         break;
                 }
             if (bj.PlayerList[i].Busted)
@@ -78,12 +84,12 @@ while (true)
             }
     }
 
-    bj.AutoPlayAllBot();
+    bj.AutoPlayAllBots();
     bj.AutoPlayDealer();
     bj.WinCheck();
 
 
-    if (bj.dealer.busted)
+    if (bj.dealer.Busted)
     {
         Console.WriteLine(bj.dealer.ShowCards());
         Console.WriteLine("\nIl Dealer ha sballato, punti: "+bj.dealer.hand.Points);
