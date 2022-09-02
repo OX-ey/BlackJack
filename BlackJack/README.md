@@ -1,4 +1,0 @@
-# BlackJack
-
-
-MOCC A MAMMT
