@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "ProvaBJ/1.0.0": {
+        "dependencies": {
+          "BlackJack": "1.0.0"
+        },
+        "runtime": {
+          "ProvaBJ.dll": {}
+        }
+      },
+      "BlackJack/1.0.0": {
+        "runtime": {
+          "BlackJack.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ProvaBJ/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BlackJack/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
